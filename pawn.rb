@@ -4,8 +4,8 @@ class Pawn < Piece
 
   attr_accessor :has_moved
 
-  def initialize(pos, board, has_moved = false)
-    super(pos, board)
+  def initialize(pos, board, color, has_moved = false)
+    super(pos, board, color)
     @has_moved = has_moved
   end
 

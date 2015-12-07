@@ -9,15 +9,16 @@ class Piece
   end
 
   def inspect
-    name
+    "X"
   end
 
   def to_s
-    "#{name}"
+    "X"
   end
 
   def moves
-    self.class.moves
   end
 
+  def move_dirs
+  end
 end

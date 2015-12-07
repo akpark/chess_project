@@ -4,28 +4,63 @@ require_relative 'player'
 require_relative 'piece'
 require_relative 'sliding_piece'
 require_relative 'bishop'
+require_relative 'queen'
+require_relative 'rook'
 
 class Board
-  # include Cursorable
-
-  FIRST_ROW = Array.new(9) { Piece.new(nil, self) }
-  SECOND_ROW = Array.new(9) { Piece.new(nil, self) }
-
-  def self.make_grid
-    grid = Array.new(9) { Array.new(9," ") }
-    #grid[0],grid[1], grid[-1],grid[-2]
-    #grid[0] reverse of grid[-1], grid[1] == grid[-2]
-    grid[0] = FIRST_ROW
-    grid[-1] = FIRST_ROW.reverse
-    grid[1] = SECOND_ROW
-    grid[-2] = SECOND_ROW
-    grid
-  end
 
   attr_accessor :grid
 
-  def initialize(grid = Board.make_grid)
-    @grid = grid
+  def initialize
+    @grid = Array.new(9) { Array.new(9) }
+    populate_grid
+  end
+
+  def populate_grid
+    grid.each_with_index do |row, row_index|
+      row.each_with_index do |col, col_index|
+        pos = [row_index, col_index]
+        case row_index
+        when 1
+          self[pos] = Pawn.new(pos, self, :white)
+        when 7
+          self[pos] = Pawn.new(pos, self, :black)
+        when 0
+          if col_index
+        when 8
+
+
+  end
+
+  def create_outside_row(color)
+    row = Array.new(8)
+    row_idx = color == :white ? 0 : 8
+    row.each_index do |col_index|
+      pos = [row_idx, col_index]
+      case col_index
+      when 0, 8
+        row[col_index] = Rook.new(pos, self, color)
+      when 1, 7
+        row[col_index] = Knight.new(pos, self, color)
+      when 2, 6
+        row[col_index] = Bishop.new(pos, self, color)
+      when 3
+        row[col_index] = Queen.new(pos, self, color)
+      when 4
+        row[col_index] = King.new(pos, self, color)
+      end
+    end
+    row
+  end
+
+  def create_inside_row(color)
+    row_idx = color == :white ? 1 : 7
+    row = Array.new(9)
+    row.each_index do |col_index|
+      pos = [row_idx, col_index]
+      row[col_index] = Pawn.new(pos, self, color)
+    end
+    row
   end
 
   def empty?(pos)
@@ -52,6 +87,10 @@ class Board
   def []=(pos, piece)
     x, y = pos
     grid[x][y] = piece
+  end
+
+  def in_bounds?(pos)
+    true
   end
 end
 

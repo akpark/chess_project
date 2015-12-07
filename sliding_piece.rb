@@ -11,8 +11,13 @@ class SlidingPiece < Piece
         moves << new_move if board.valid_pos?(new_move)
       end
     end
+    moves.reject do |move|
+      #if already occupied by own color, don't add
+      #if already occupied by other color, add
+      #in both cases, don't add moves beyond an occupied space
+      board[move].empty?
+    end
 
-    moves
   end
 
 end

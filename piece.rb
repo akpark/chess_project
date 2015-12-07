@@ -9,17 +9,15 @@ class Piece
     @color = color
   end
 
-  # def inspect
-  #   "X"
-  # end
-
-  # def to_s
-  #   "X"
-  # end
-
   def moves
   end
 
   def move_dirs
   end
+
+  protected
+  def is_same_color?(other_piece)
+    color == other_piece.color
+  end
+  
 end

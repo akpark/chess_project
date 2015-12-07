@@ -18,18 +18,17 @@ class Board
 
   def populate_grid
     grid.each_with_index do |row, row_index|
-      row.each_with_index do |col, col_index|
-        pos = [row_index, col_index]
-        case row_index
-        when 1
-          self[pos] = Pawn.new(pos, self, :white)
-        when 7
-          self[pos] = Pawn.new(pos, self, :black)
-        when 0
-          if col_index
-        when 8
-
-
+      case row_index
+      when 0
+        grid[row_index] = create_outside_row(:white)
+      when 1
+        grid[row_index] = create_inside_row(:white)
+      when 7
+        grid[row_index] = create_inside_row(:black)
+      when 8
+        grid[row_index] = create_outside_row(:black).reverse
+      end
+    end
   end
 
   def create_outside_row(color)

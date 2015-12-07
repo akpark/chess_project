@@ -15,4 +15,8 @@ class Knight < SteppingPiece
     ]
   end
 
+  def to_s
+    "k"
+  end
+
 end

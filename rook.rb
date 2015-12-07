@@ -11,4 +11,8 @@ class Rook < SlidingPiece
     ]
   end
 
+  def to_s
+    "R"
+  end
+
 end

@@ -11,4 +11,8 @@ class Bishop < SlidingPiece
     ]
   end
 
+  def to_s
+    "B"
+  end
+
 end

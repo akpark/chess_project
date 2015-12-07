@@ -15,4 +15,8 @@ class Queen < SlidingPiece
     ]
   end
 
+  def to_s
+    "Q"
+  end
+
 end

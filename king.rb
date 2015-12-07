@@ -15,4 +15,8 @@ class King < SteppingPiece
     ]
   end
 
+  def to_s
+    "K"
+  end
+
 end

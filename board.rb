@@ -67,7 +67,7 @@ class Board
   end
 
   def empty?(pos)
-    self[pos].nil?
+    self[pos].nil? && in_bounds?(pos)
   end
 
   def move(start_pos, end_pos)

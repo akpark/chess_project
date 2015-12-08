@@ -8,22 +8,16 @@ class SlidingPiece < Piece
     self.move_dirs.each do |move_dir|
       1.upto(8) do |i|
         new_move = [x + (move_dir[0] * i), y + (move_dir[1] * i)]
-        if board.in_bounds?(new_move)
-          if board.empty?(new_move)
-            moves << new_move
-          else
-            other_piece = board[new_move]
-            moves << new_move if !is_same_color?(other_piece)
-            break
-          end
-        end
+        moves << new_move if valid_move?(new_move)
+        break unless board.empty?(new_move)
       end
     end
     moves
   end
 
-  def get_valid_moves(moves)
-
+  def valid_move?(new_move)
+    board.in_bounds?(new_move) &&
+    (board.empty?(new_move) || !is_same_color?(board[new_move]))
   end
 
 end

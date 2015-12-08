@@ -1,12 +1,12 @@
 class Piece
 
-  attr_reader :board, :color
+  attr_reader :board, :piece_color
   attr_accessor :pos
 
-  def initialize(pos, board, color)
+  def initialize(pos, board, piece_color)
     @pos = pos
     @board = board
-    @color = color
+    @piece_color = piece_color
   end
 
   def moves
@@ -16,13 +16,11 @@ class Piece
   end
 
   def valid_move?(new_move)
-    board.in_bounds?(new_move) &&
-    (board.empty?(new_move) || !is_same_color?(board[new_move]))
+    board.empty?(new_move) || !is_same_color?(board[new_move])
   end
 
-  protected
   def is_same_color?(other_piece)
-    color == other_piece.color
+    piece_color == other_piece.piece_color
   end
 
 end

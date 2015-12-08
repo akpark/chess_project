@@ -30,7 +30,7 @@ class Board
       when 7
         grid[row_index] = create_outside_row(:black)
       else
-        grid[row_index] = Array.new(8) { " " }
+        grid[row_index] = Array.new(8)
       end
     end
   end

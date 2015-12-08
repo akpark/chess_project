@@ -42,4 +42,5 @@ class Display
     puts "Arrow keys, WASD, or vim to move, space or enter to select."
     build_grid.each { |row| puts row.join }
   end
+
 end

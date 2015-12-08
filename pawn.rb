@@ -4,8 +4,8 @@ class Pawn < Piece
 
   attr_accessor :has_moved
 
-  def initialize(pos, board, color, has_moved = false)
-    super(pos, board, color)
+  def initialize(pos, board, piece_color, has_moved = false)
+    super(pos, board, piece_color)
     @has_moved = has_moved
   end
 
@@ -14,27 +14,27 @@ class Pawn < Piece
   end
 
   def move_dirs
-    color == :black ? black_move_dirs : white_move_dirs
-  end
-
-  def black_move_dirs
-    deltas = [
-      [-1, 1],
-      [ 0, 1],
-      [ 1, 1]
-    ]
-
-    deltas << [0,2] if !has_moved?
+    piece_color == :black ? black_move_dirs : white_move_dirs
   end
 
   def white_move_dirs
     deltas = [
-      [ 0, -1],
-      [ 1, -1],
+      [1, -1],
+      [1,  0],
+      [1,  1]
+    ]
+
+    deltas << [2, 0] if !has_moved?
+  end
+
+  def black_move_dirs
+    deltas = [
+      [-1,  0],
+      [-1,  1],
       [-1, -1]
     ]
 
-    deltas << [0,-2] if !has_moved?
+    deltas << [-2, 0] if !has_moved?
   end
 
   def moves
@@ -53,8 +53,12 @@ class Pawn < Piece
     moves
   end
 
-  def valid_diagonal_move?
-    !board.empty?(new_move) && !is_same_color?(board[new_move])
+  def valid_diagonal_move?(move)
+    !board.empty?(move) && !is_same_color?(board[move])
+  end
+
+  def valid_move?(move)
+    board.empty?(move)
   end
 
   def to_s

@@ -72,13 +72,14 @@ class Board
 
   def move(start_pos, end_pos)
     raise EmptyStartPositionError if empty?(start_pos)
-    #there's already a piece
-    raise InvalidPositionError unless valid_pos?(start_pos) && valid_pos?(end_pos)
-    #get the piece at start position and move it to end position
+    unless in_bounds?(start_pos) && in_bounds?(end_pos)
+      raise InvalidPositionError
+    end
+
     self[start_pos], self[end_pos] = nil, self[start_pos]
   end
 
-  def valid_pos?(pos)
+  def in_bounds?(pos)
     pos.none? { |el| el < 0 || el > 7 }
   end
 
@@ -90,10 +91,6 @@ class Board
   def []=(pos, piece)
     x, y = pos
     grid[x][y] = piece
-  end
-
-  def in_bounds?(pos)
-    true
   end
 end
 

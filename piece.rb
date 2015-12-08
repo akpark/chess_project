@@ -16,7 +16,8 @@ class Piece
   end
 
   def valid_move?(new_move)
-    board.empty?(new_move) || !is_same_color?(board[new_move])
+    board.in_bounds?(new_move) &&
+    (board.empty?(new_move) || !is_same_color?(board[new_move]))
   end
 
   def is_same_color?(other_piece)

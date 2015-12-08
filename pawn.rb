@@ -54,11 +54,11 @@ class Pawn < Piece
   end
 
   def valid_diagonal_move?(move)
-    !board.empty?(move) && !is_same_color?(board[move])
+    !board.empty?(move) && in_bounds?(move) && !is_same_color?(board[move])
   end
 
   def valid_move?(move)
-    board.empty?(move)
+    board.empty?(move) && in_bounds?(move)
   end
 
   def to_s

@@ -24,4 +24,8 @@ class Piece
     color == other_piece.color
   end
 
+  def inspect
+    "Position: #{pos}, Color: #{color}, Class: #{self.class}"
+  end
+
 end

@@ -7,6 +7,7 @@ require_relative 'rook'
 require_relative 'knight'
 require_relative 'king'
 require_relative 'pawn'
+require 'byebug'
 
 class Board
 
@@ -47,9 +48,9 @@ class Board
         row[col_index] = Knight.new(pos, self, color)
       when 2, 5
         row[col_index] = Bishop.new(pos, self, color)
-      when 3
-        row[col_index] = Queen.new(pos, self, color)
       when 4
+        row[col_index] = Queen.new(pos, self, color)
+      when 3
         row[col_index] = King.new(pos, self, color)
       end
     end
@@ -98,11 +99,14 @@ class Board
     king_coords = find_king_coords(color)
     grid.each_with_index do |row, row_index|
       row.each_with_index do |col, col_index|
-        pos = row_index,col_index
-        piece = self[pos] if self[pos].is_a?(Piece)
-        return true if piece.moves.include?(king_coords)
+        pos = [row_index, col_index]
+        square = self[pos]
+        if square.is_a?(Piece) && square.color != color
+          return true if square.moves.include?(king_coords)
+        end
       end
     end
+
     false
   end
 
@@ -117,7 +121,16 @@ class Board
   end
 
   def checkmate?(color)
+    return false if !in_check?(color)
+    grid.flatten.all? do |square|
+      if square.is_a?(Piece) && square.color == color
+        square.moves.empty?
+      else
+        true
+      end
+    end
 
+    false
   end
 end
 

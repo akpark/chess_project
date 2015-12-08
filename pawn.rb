@@ -39,18 +39,18 @@ class Pawn < Piece
 
   def moves
     x, y = pos
-    moves = []
+    result = []
     diagonal_move_dirs = [[-1, 1], [1, 1], [1, -1], [-1, -1]]
     move_dirs.each do |move_dir|
       new_move = [x + move_dir[0], y + move_dir[1]]
       if diagonal_move_dirs.include?(move_dir)
-        moves << new_move if valid_diagonal_move?(new_move)
+        result << new_move if valid_diagonal_move?(new_move)
       else
-        moves << new_move if valid_move?(new_move)
+        result << new_move if valid_move?(new_move)
       end
     end
 
-    moves
+    result
   end
 
   def valid_diagonal_move?(move)
@@ -58,7 +58,7 @@ class Pawn < Piece
   end
 
   def valid_move?(move)
-    board.empty?(move) && in_bounds?(move)
+    board.empty?(move) && board.in_bounds?(move)
   end
 
   def to_s

@@ -4,12 +4,13 @@ class SteppingPiece < Piece
 
   def moves
     x, y = pos
-    moves = []
+    result = []
     self.move_dirs.each do |move_dir|
       new_move = [x + (move_dir[0]), y + (move_dir[1])]
-      moves << new_move if valid_move?(new_move)
+      result << new_move if valid_move?(new_move)
     end
-    moves
+
+    result
   end
 
 end

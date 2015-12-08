@@ -15,9 +15,4 @@ class SlidingPiece < Piece
     moves
   end
 
-  def valid_move?(new_move)
-    board.in_bounds?(new_move) &&
-    (board.empty?(new_move) || !is_same_color?(board[new_move]))
-  end
-
 end

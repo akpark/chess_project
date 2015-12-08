@@ -15,9 +15,14 @@ class Piece
   def move_dirs
   end
 
+  def valid_move?(new_move)
+    board.in_bounds?(new_move) &&
+    (board.empty?(new_move) || !is_same_color?(board[new_move]))
+  end
+
   protected
   def is_same_color?(other_piece)
     color == other_piece.color
   end
-  
+
 end

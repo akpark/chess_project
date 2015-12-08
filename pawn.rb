@@ -14,17 +14,33 @@ class Pawn < Piece
   end
 
   def move_dirs
-    has_moved? ? [[0, 1]] : [[0, 1], [0, 2]]
+    deltas = [
+      [-1, 1],
+      [ 0, 1],
+      [ 1, 1]
+    ]
+
+    deltas << [0,2] if !has_moved?
   end
 
   def moves
     x, y = pos
     moves = []
+    diagonal_moves = [[-1,1], [1,1]]
     move_dirs.each do |move_dir|
       new_move = [x + move_dir[0], y + move_dir[1]]
-      moves << new_move if board.valid_pos?(new_move)
+      if diagonal_moves.include?(move_dir)
+        moves << new_move if valid_diagonal_move?(new_move)
+      else
+        moves << new_move if valid_move?(new_move)
+      end
     end
+
     moves
+  end
+
+  def valid_diagonal_move?
+    !board.empty?(new_move) && !is_same_color?(board[new_move])
   end
 
   def to_s

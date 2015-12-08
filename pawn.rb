@@ -4,8 +4,8 @@ class Pawn < Piece
 
   attr_accessor :has_moved
 
-  def initialize(pos, board, piece_color, has_moved = false)
-    super(pos, board, piece_color)
+  def initialize(pos, board, color, has_moved = false)
+    super(pos, board, color)
     @has_moved = has_moved
   end
 
@@ -14,7 +14,7 @@ class Pawn < Piece
   end
 
   def move_dirs
-    piece_color == :black ? black_move_dirs : white_move_dirs
+    color == :black ? black_move_dirs : white_move_dirs
   end
 
   def white_move_dirs

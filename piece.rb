@@ -1,12 +1,12 @@
 class Piece
 
-  attr_reader :board, :piece_color
+  attr_reader :board, :color
   attr_accessor :pos
 
-  def initialize(pos, board, piece_color)
+  def initialize(pos, board, color)
     @pos = pos
     @board = board
-    @piece_color = piece_color
+    @color = color
   end
 
   def moves
@@ -21,7 +21,7 @@ class Piece
   end
 
   def is_same_color?(other_piece)
-    piece_color == other_piece.piece_color
+    color == other_piece.color
   end
 
 end

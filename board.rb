@@ -70,6 +70,10 @@ class Board
     self[pos].nil?
   end
 
+  def in_bounds?(pos)
+    pos.none? { |el| el < 0 || el > 7 }
+  end
+
   def move(start_pos, end_pos)
     raise EmptyStartPositionError if empty?(start_pos)
     unless in_bounds?(start_pos) && in_bounds?(end_pos)
@@ -79,9 +83,6 @@ class Board
     self[start_pos], self[end_pos] = nil, self[start_pos]
   end
 
-  def in_bounds?(pos)
-    pos.none? { |el| el < 0 || el > 7 }
-  end
 
   def [](pos)
     x, y = pos
@@ -91,6 +92,32 @@ class Board
   def []=(pos, piece)
     x, y = pos
     grid[x][y] = piece
+  end
+
+  def in_check?(color)
+    king_coords = find_king_coords(color)
+    grid.each_with_index do |row, row_index|
+      row.each_with_index do |col, col_index|
+        pos = row_index,col_index
+        piece = self[pos] if self[pos].is_a?(Piece)
+        return true if piece.moves.include?(king_coords)
+      end
+    end
+    false
+  end
+
+  def find_king_coords(color)
+    grid.each_with_index do |row, row_index|
+      row.each_with_index do |col, col_index|
+        pos = [row_index, col_index]
+        piece = self[pos]
+        return pos if piece.is_a?(King) && piece.color == color
+      end
+    end
+  end
+
+  def checkmate?(color)
+
   end
 end
 

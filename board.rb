@@ -5,8 +5,8 @@ class Board
 
   attr_accessor :grid
 
-  def initialize
-    @grid = Array.new(8) { Array.new(8) }
+  def initialize(grid = Array.new(8) { Array.new(8) })
+    @grid = grid
     populate_grid
   end
 
@@ -68,13 +68,21 @@ class Board
 
   def move(start_pos, end_pos)
     if !self[start_pos].nil? && self[start_pos].moves.include?(end_pos)
-      self[start_pos], self[end_pos] = nil, self[start_pos]
+      self[end_pos] = self[start_pos]
+      self[start_pos] = nil
       self[end_pos].has_moved = true
       self[end_pos].pos = end_pos
     else
       raise InvalidMoveError
     end
   end
+
+  def dup_move(start_pos, end_pos)
+      self[end_pos] = self[start_pos]
+      self[start_pos] = nil
+      self[end_pos].has_moved = true
+      self[end_pos].pos = end_pos
+    end
 
 
   def [](pos)
@@ -123,6 +131,29 @@ class Board
     end
 
     false
+  end
+
+  def deep_dup
+    duped_grid = Array.new(8) { Array.new(8) }
+    duped_grid.each_with_index do |row, row_index|
+      row.each_with_index do |square, square_index|
+        duped_grid[row_index][square_index] = square
+      end
+    end
+    duped_board = Board.new(duped_grid)
+    duped_board.update_piece_references
+    duped_board
+  end
+
+  def update_piece_references
+    grid.each_with_index do |row, row_index|
+      row.each_with_index do |square, square_index|
+        pos = [row_index, square_index]
+        if self[pos].is_a?(Piece)
+          self[pos].board = self
+        end
+      end
+    end
   end
 end
 

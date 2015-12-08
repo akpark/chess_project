@@ -1,12 +1,4 @@
-require_relative 'piece'
-require_relative 'display'
-require_relative 'sliding_piece'
-require_relative 'bishop'
-require_relative 'queen'
-require_relative 'rook'
-require_relative 'knight'
-require_relative 'king'
-require_relative 'pawn'
+
 require 'byebug'
 
 class Board
@@ -14,7 +6,6 @@ class Board
   attr_accessor :grid
 
   def initialize
-
     @grid = Array.new(8) { Array.new(8) }
     populate_grid
   end
@@ -76,12 +67,13 @@ class Board
   end
 
   def move(start_pos, end_pos)
-    raise EmptyStartPositionError if empty?(start_pos)
-    unless in_bounds?(start_pos) && in_bounds?(end_pos)
-      raise InvalidPositionError
+    if !self[start_pos].nil? && self[start_pos].moves.include?(end_pos)
+      self[start_pos], self[end_pos] = nil, self[start_pos]
+      self[end_pos].has_moved = true
+      self[end_pos].pos = end_pos
+    else
+      raise InvalidMoveError
     end
-
-    self[start_pos], self[end_pos] = nil, self[start_pos]
   end
 
 
@@ -135,6 +127,9 @@ class Board
 end
 
 class PositionError < StandardError
+end
+
+class InvalidMoveError < StandardError
 end
 
 class EmptyStartPositionError < PositionError

@@ -2,17 +2,6 @@ require_relative 'piece'
 
 class Pawn < Piece
 
-  attr_accessor :has_moved
-
-  def initialize(pos, board, color, has_moved = false)
-    super(pos, board, color)
-    @has_moved = has_moved
-  end
-
-  def has_moved?
-    has_moved
-  end
-
   def move_dirs
     color == :black ? black_move_dirs : white_move_dirs
   end
@@ -25,6 +14,7 @@ class Pawn < Piece
     ]
 
     deltas << [2, 0] if !has_moved?
+    deltas
   end
 
   def black_move_dirs
@@ -35,6 +25,7 @@ class Pawn < Piece
     ]
 
     deltas << [-2, 0] if !has_moved?
+    deltas
   end
 
   def moves
@@ -54,7 +45,7 @@ class Pawn < Piece
   end
 
   def valid_diagonal_move?(move)
-    !board.empty?(move) && in_bounds?(move) && !is_same_color?(board[move])
+    !board.empty?(move) && board.in_bounds?(move) && !is_same_color?(board[move])
   end
 
   def valid_move?(move)

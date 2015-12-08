@@ -1,12 +1,17 @@
 class Piece
 
   attr_reader :board, :color
-  attr_accessor :pos
+  attr_accessor :pos, :has_moved
 
-  def initialize(pos, board, color)
+  def initialize(pos, board, color, has_moved = false)
     @pos = pos
     @board = board
     @color = color
+    @has_moved = has_moved
+  end
+
+  def has_moved?
+    has_moved
   end
 
   def moves
@@ -17,11 +22,18 @@ class Piece
 
   def valid_move?(new_move)
     board.in_bounds?(new_move) &&
-    (board.empty?(new_move) || !is_same_color?(board[new_move]))
+    (board.empty?(new_move) || !is_same_color?(board[new_move])) &&
+    !move_into_check(new_move)
   end
 
   def is_same_color?(other_piece)
     color == other_piece.color
+  end
+
+  def move_into_check?(end_pos)
+    dup_board = board.deep_dup
+    dup_board.move(pos, end_pos)
+    dup_board.in_check?(color)
   end
 
   def inspect

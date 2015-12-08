@@ -4,6 +4,8 @@ require_relative "cursorable"
 class Display
   include Cursorable
 
+  attr_reader :board
+
   def initialize(board)
     @board = board
     @cursor_pos = [0,0]
@@ -18,6 +20,7 @@ class Display
 
   def build_row(row, i)
     row.map.with_index do |piece, j|
+      piece = " " if piece.nil?
       color_options = colors_for(i, j)
       piece.to_s.colorize(color_options)
     end
@@ -25,13 +28,18 @@ class Display
 
   def colors_for(i, j)
     if [i, j] == @cursor_pos
-      bg = :light_red
+      bg = :cyan
     elsif (i + j).odd?
-      bg = :light_blue
+      bg = :light_red
     else
-      bg = :blue
+      bg = :red
     end
-    { background: bg, color: :white }
+    if board[[i, j]].is_a?(Piece) && board[[i, j]].color == :white
+      text_color = :light_white
+    else
+      text_color = :black
+    end
+    { background: bg, color: text_color }
   end
 
   def inspect
